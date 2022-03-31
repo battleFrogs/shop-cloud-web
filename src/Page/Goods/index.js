@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
 import "./index.less";
 import Input from "antd/es/input";
-import {Button, Col, Row, Space, Table, Tag} from "antd";
+import {Button, Col, Form, InputNumber, Modal, Row, Space, Table, Tag} from "antd";
 import axios from "axios";
+
 
 class Goods extends Component {
 
@@ -10,6 +11,7 @@ class Goods extends Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
+            isModalVisible: false,
             goodsName: "",
             goodsPrice: "",
             goodsData: []
@@ -18,16 +20,73 @@ class Goods extends Component {
 
     // 获取数据
     getData = () => {
+        let goodsName = this.state.goodsName;
+        let goodsPrice = this.state.goodsPrice;
+
+        let data = {};
+        if (goodsPrice) {
+            data['goodsPrice'] = goodsPrice;
+        }
+        if (goodsName) {
+            data['goodsName'] = goodsName;
+        }
+
+
         axios.post(
-            "http://localhost:9001/test", {},
+            "http://localhost:9001/test", data,
         ).then((res) => {
             this.setState({
                 goodsData: res.data
-            })
-            console.log(this.state.goodsData)
+            });
         });
 
+    };
+
+    // 修改商品名称
+    changeGoodsName = (e) => {
+        this.setState({
+            goodsName: e.target.value
+        })
+    };
+
+    // 修改商品价格
+    changeGoodsPrice = (e) => {
+        this.setState({
+            goodsPrice: e.target.value
+        })
+    };
+
+    // 搜索
+    searchInfo = () => {
+        this.getData();
+    };
+
+    // 清空
+    clearInfo = () => {
+        this.setState({
+            goodsName: "",
+            goodsPrice: ""
+        });
+    };
+
+    // 新增数据
+    insertInfo = () => {
+        this.setState({
+            isModalVisible: true,
+        })
+    };
+
+    closeModal = ()=>{
+        this.setState({
+            isModalVisible: false,
+        })
     }
+
+    onFinish = (values) => {
+        console.log(values);
+    }
+
+
 
     componentWillMount() {
         this.getData();
@@ -35,6 +94,18 @@ class Goods extends Component {
 
 
     render() {
+
+
+        const layout = {
+            labelCol: {span: 6},
+            wrapperCol: {span: 15},
+        };
+        const validateMessages = {
+            required: '${label} 不能为空',
+            number: {
+                range: '${label} 价格必须在 ${min} and ${max} 之间',
+            },
+        };
 
         const columns = [
             {
@@ -85,21 +156,44 @@ class Goods extends Component {
                         <span>商品名称:</span>
                     </Col>
                     <Col span={3}>
-                        <Input placeholder="商品名称" value={this.state.goodsName}/>
+                        <Input placeholder="商品名称"
+                               onChange={this.changeGoodsName} value={this.state.goodsName}/>
                     </Col>
                     <span style={{marginRight: 13}}/>
                     <Col span={1}>
                         <span>商品价格:</span>
                     </Col>
                     <Col span={3}>
-                        <Input placeholder="商品价格" value={this.state.goodsPrice}/>
+                        <Input placeholder="商品价格"
+                               onChange={this.changeGoodsPrice} value={this.state.goodsPrice}/>
                     </Col>
                     <span style={{marginRight: 13}}/>
                     <Col span={1}>
-                        <Button type="primary">搜索</Button>
+                        <Button type="primary" onClick={this.searchInfo}>搜索</Button>
                     </Col>
                     <Col span={1}>
-                        <Button type="ghost">清空</Button>
+                        <Button type="ghost" onClick={this.clearInfo}>清空</Button>
+                    </Col>
+                    <Col span={1}>
+                        <Button type="primary" danger onClick={this.insertInfo}>新增</Button>
+                        <Modal title="新增商品" footer={null} visible={this.state.isModalVisible}
+                               onCancel={this.closeModal}>
+                            <Form {...layout} name="nest-messages" onFinish={this.onFinish}
+                                  validateMessages={validateMessages}>
+                                <Form.Item name={['user', 'name']} label="商品名称" rules={[{required: true}]}>
+                                    <Input/>
+                                </Form.Item>
+                                <Form.Item name={['user', 'age']} label="商品价格"
+                                           rules={[{type: 'number', min: 0, max: 99}]}>
+                                    <InputNumber/>
+                                </Form.Item>
+                                <Form.Item wrapperCol={{...layout.wrapperCol, offset: 8}}>
+                                    <Button type="primary" htmlType="submit">
+                                        提交
+                                    </Button>
+                                </Form.Item>
+                            </Form>
+                        </Modal>
                     </Col>
                 </Row>
                 <div style={{marginTop: 20}}/>
