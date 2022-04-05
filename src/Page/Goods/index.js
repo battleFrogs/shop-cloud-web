@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import "./index.less";
 import Input from "antd/es/input";
 import {Button, Col, Form, InputNumber, Modal, Row, Space, Table, Tag} from "antd";
-import axios from "axios";
+import service from "../../Component/Axios/requestService"
 
 
 class Goods extends Component {
@@ -11,10 +11,10 @@ class Goods extends Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            isModalVisible: false,
-            goodsName: "",
-            goodsPrice: "",
-            goodsData: []
+            isModalVisible: false, // 新增弹窗是否显示
+            goodsName: "", // 商品输入名称
+            goodsPrice: "", // 商品输入价格
+            goodsData: [] // 商品请求数据
         }
     }
 
@@ -31,15 +31,14 @@ class Goods extends Component {
             data['goodsName'] = goodsName;
         }
 
-
-        // axios.post(
-        //     "http://localhost:9001/test", data,
-        // ).then((res) => {
-        //     this.setState({
-        //         goodsData: res.data
-        //     });
-        // });
-
+        service.get("http://localhost:9000/goods/getGoodss", {})
+            .then(res => {
+                this.setState({
+                    goodsData: res.goodsInfoList
+                })
+            }).catch(err => {
+                alert(err)
+        })
     };
 
     // 修改商品名称
@@ -76,7 +75,7 @@ class Goods extends Component {
         })
     };
 
-    closeModal = ()=>{
+    closeModal = () => {
         this.setState({
             isModalVisible: false,
         })
@@ -85,7 +84,6 @@ class Goods extends Component {
     onFinish = (values) => {
         console.log(values);
     }
-
 
 
     componentWillMount() {
@@ -120,8 +118,8 @@ class Goods extends Component {
             },
             {
                 title: '商品描述',
-                dataIndex: 'description',
-                key: 'description',
+                dataIndex: 'goodsDescription',
+                key: 'goodsDescription',
             },
             {
                 title: '是否上架',

@@ -12,6 +12,10 @@ service.interceptors.request.use(config => {
     // if (store.getters.token) {
     //     config.headers['TOKEN'] = getCookie('TOKEN')
     // }
+    config.headers["Auth-Token"] = "eyJhbGciOiJIUzUx" +
+        "MiJ9.eyJ1c2VySWQiOjEsInVzZXJOYW1lIjoiZ2pjIiwicmFuZG9" +
+        "tU3RyaW5nIjoid2dycjNiNWs0cyJ9.3mWif_y3h2W2niuCO0k9kkKwiuOC" +
+        "EzIB5RCe0WoQbDKKcS_UasbT7yvR2ykwwRMowd85eQpY7me-9A7r_dGC3A";
     return config
 }, function (error) {
     return Promise.reject(error)

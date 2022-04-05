@@ -10,11 +10,21 @@ const {Sider, Content} = Layout;
 
 class App extends Component {
 
+    state = {
+        collapsed: false,
+    }
+
+    onCollapse = (collapsed) => {
+        this.setState({
+            collapsed
+        })
+    }
+
 
     render() {
         return (
             <Layout style={{minHeight: '100vh'}}>
-                <Sider>
+                <Sider collapsible collapsed={this.state.collapsed} onCollapse={this.onCollapse}>
                     <NavLeft/>
                 </Sider>
                 <Layout className="site-layout">
