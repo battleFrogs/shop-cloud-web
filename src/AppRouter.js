@@ -9,16 +9,30 @@ class AppRouter extends Component {
     render() {
         return (
             <BrowserRouter>
-                <App>
-                    <Routes>
-                        <Route path="/" element={<Home/>}/>
-                        <Route path="/page1/pageDetail1" element={<Goods/>}/>
-                        <Route path="*" element={<Unknown/>}/>
-                    </Routes>
-                </App>
+                <Routes>
+                    <Route path="/" element={<Home/>}/>
+                    <Route path="/home/*" element={<HomeInfo/>}/>
+                    <Route path="*" element={<Unknown/>}/>
+                </Routes>
             </BrowserRouter>
         );
     }
 }
+
+
+class HomeInfo extends Component {
+
+    render() {
+        return (
+            <App>
+                <Routes>
+                    <Route path="/goods/goodsDetail" element={<Goods/>}/>
+                    <Route path="*" element={<Unknown/>}/>
+                </Routes>
+            </App>)
+    }
+
+}
+
 
 export default AppRouter;

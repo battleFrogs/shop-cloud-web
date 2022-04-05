@@ -1,3 +1,4 @@
+import * as Icon from "@ant-design/icons";
 import React, {Component} from 'react';
 import './index.less'
 import {Menu} from "antd";
@@ -10,31 +11,20 @@ class NavLeft extends Component {
 
     // 获取左边栏数据
     getNavLeftOption = (menuConfig) => {
-        let result = [];
-        menuConfig.forEach(res => {
-            if (!res.children) {
-                result.push(<Menu.Item key={res.key}>
-                    <NavLink to={res.url}>{res.name}</NavLink>
-                </Menu.Item>);
-            } else {
-
-                let result1 = [];
-                res.children.forEach(r => {
-                    result1.push(<Menu.Item key={r.key}>
-                        <NavLink to={r.url}>{r.name}</NavLink>
-                    </Menu.Item>);
-                });
-
-                result.push(<SubMenu key={res.key} title={res.name}>
-                    {result1}
+        return menuConfig.map(res => {
+            if (res.children) {
+                return (<SubMenu key={res.key} title={res.name} icon={React.createElement(Icon[res.icon])}>
+                    {this.getNavLeftOption(res.children)}
                 </SubMenu>);
+            } else {
+                return <Menu.Item key={res.key} icon={React.createElement(Icon[res.icon])}>
+                    <NavLink to={res.url}>{res.name}</NavLink>
+                </Menu.Item>
             }
         });
-        return <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
-            {result}
-        </Menu>;
     };
 
+    // 对左边栏数据的封装
     componentWillMount() {
         const result = this.getNavLeftOption(menuConfig);
         this.setState({
@@ -46,7 +36,9 @@ class NavLeft extends Component {
         return (
             <div>
                 <div className="logo"/>
-                {this.state.menuTreeNode}
+                <Menu theme="dark" mode="inline">
+                    {this.state.menuTreeNode}
+                </Menu>
             </div>
         );
     }

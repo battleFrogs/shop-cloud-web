@@ -32,13 +32,13 @@ class Goods extends Component {
         }
 
 
-        axios.post(
-            "http://localhost:9001/test", data,
-        ).then((res) => {
-            this.setState({
-                goodsData: res.data
-            });
-        });
+        // axios.post(
+        //     "http://localhost:9001/test", data,
+        // ).then((res) => {
+        //     this.setState({
+        //         goodsData: res.data
+        //     });
+        // });
 
     };
 
