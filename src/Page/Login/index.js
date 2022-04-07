@@ -2,17 +2,31 @@ import React, { Component } from 'react';
 import { Form, Input, Row, Button, Divider, Col } from 'antd';
 import './index.css'
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import service from '../../Component/Axios/requestService';
+import apiurl from "../../Requests/system";
+import withRouter from "../../Component/Axios/withRouter"
+
+
+
 
 
 class Login extends Component {
 
+    login = (values) => {
+        const { username, password } = values
+        service.postJson(apiurl.login, { userName: username, password })
+            .then(res => {
+                this.props.history.push(`/home/goods/goodsDetail`);
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    }
 
     onFinish = (values) => {
-        console.log('Success:', values);
-    };
 
-    onFinishFailed = (errorInfo) => {
-        console.log('Failed:', errorInfo);
+        this.login(values)
+
     };
 
     render() {
@@ -30,7 +44,6 @@ class Login extends Component {
                             wrapperCol={{ span: 12 }}
                             initialValues={{ remember: true }}
                             onFinish={this.onFinish}
-                            onFinishFailed={this.onFinishFailed}
                             autoComplete="off"
                             style={{ marginTop: 15 }}
                         >
@@ -80,4 +93,5 @@ class Login extends Component {
     }
 }
 
-export default Login;
+// export default withRouter(Login);
+export default withRouter(Login);

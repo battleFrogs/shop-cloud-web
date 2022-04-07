@@ -4,8 +4,17 @@ import axios from "axios";
 // 实例化对象
 const service = axios.create({
     timeout: 40000,
-    headers: {"Content-Type": "application/x-www-form-urlencoded"},
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
 });
+
+
+
+const urlprefixInfo = {
+    "localhost": "http://localhost:9000"
+}
+
+const urlprefix = "http://localhost:9000"
+
 
 // 添加请求拦截器
 service.interceptors.request.use(config => {
@@ -39,7 +48,7 @@ export default {
         return new Promise((resolve, reject) => {
             service({
                 method: "GET",
-                url,
+                url: urlprefix + url,
                 params: param,
                 headers: {
                     "Access-Control-Allow-Origin": "*",
@@ -55,6 +64,7 @@ export default {
 
     // post Json请求
     postJson(url, data) {
+        console.log(urlprefix + url)
         return new Promise((resolve, reject) => {
             service({
                 method: "POST",
@@ -63,7 +73,7 @@ export default {
                     "Access-Control-Allow-Origin": "*",
                     "token": sessionStorage.getItem('token')
                 },
-                url,
+                url: urlprefix + url,
                 data
             }).then(res => {
                 responseReturn(resolve, reject, res);
@@ -83,7 +93,7 @@ export default {
                     "Access-Control-Allow-Origin": "*",
                     "token": sessionStorage.getItem('token')
                 },
-                url,
+                url: urlprefix + url,
                 data: param
             }).then(res => {
                 responseReturn(resolve, reject, res);
@@ -98,7 +108,7 @@ export default {
         return new Promise((resolve, reject) => {
             service({
                 method: "POST",
-                url,
+                url: urlprefix + url,
                 data: param,
                 headers: {
                     "Content-Type": "multipart/form-data",
@@ -125,7 +135,7 @@ export default {
                     "Access-Control-Allow-Origin": "*",
                     "token": sessionStorage.getItem('token')
                 },
-                url,
+                url: urlprefix + url,
                 crossdomain: true,
                 params: param
             })

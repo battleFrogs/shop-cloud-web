@@ -31,7 +31,7 @@ class Goods extends Component {
             data['goodsName'] = goodsName;
         }
 
-        service.get("http://localhost:9000/goods/getGoodss", {})
+        service.get("/goods/getGoods", {})
             .then(res => {
                 this.setState({
                     goodsData: res.goodsInfoList
