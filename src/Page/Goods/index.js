@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import "./index.less";
 import Input from "antd/es/input";
-import {Button, Col, Form, InputNumber, Modal, Row, Space, Table, Tag} from "antd";
+import { Button, Col, Form, InputNumber, Modal, Row, Space, Table, Tag } from "antd";
 import service from "../../Component/Axios/requestService"
 
 
@@ -23,22 +23,21 @@ class Goods extends Component {
         let goodsName = this.state.goodsName;
         let goodsPrice = this.state.goodsPrice;
 
-        let data = {};
+        let param = {};
         if (goodsPrice) {
-            data['goodsPrice'] = goodsPrice;
+            param['goodsPrice'] = goodsPrice;
         }
         if (goodsName) {
-            data['goodsName'] = goodsName;
+            param['goodsName'] = goodsName;
         }
 
-        service.get("/goods/getGoods", {})
+        service.get("/goods/getGoods", param)
             .then(res => {
+                console.log(res.goodsInfoList)
                 this.setState({
                     goodsData: res.goodsInfoList
                 })
-            }).catch(err => {
-                alert(err)
-        })
+            })
     };
 
     // 修改商品名称
@@ -95,8 +94,8 @@ class Goods extends Component {
 
 
         const layout = {
-            labelCol: {span: 6},
-            wrapperCol: {span: 15},
+            labelCol: { span: 6 },
+            wrapperCol: { span: 15 },
         };
         const validateMessages = {
             required: '${label} 不能为空',
@@ -139,7 +138,7 @@ class Goods extends Component {
                 render: (text, record) => (
                     <>
                         <Button type="primary">下架</Button>
-                        <span style={{marginRight: 10}}/>
+                        <span style={{ marginRight: 10 }} />
                         <Button type="ghost">删除</Button>
                     </>
                 ),
@@ -149,23 +148,23 @@ class Goods extends Component {
 
         return (
             <div>
-                <Row style={{lineHeight: 3}}>
+                <Row style={{ lineHeight: 3 }}>
                     <Col span={1}>
                         <span>商品名称:</span>
                     </Col>
                     <Col span={3}>
                         <Input placeholder="商品名称"
-                               onChange={this.changeGoodsName} value={this.state.goodsName}/>
+                            onChange={this.changeGoodsName} value={this.state.goodsName} />
                     </Col>
-                    <span style={{marginRight: 13}}/>
+                    <span style={{ marginRight: 13 }} />
                     <Col span={1}>
                         <span>商品价格:</span>
                     </Col>
                     <Col span={3}>
                         <Input placeholder="商品价格"
-                               onChange={this.changeGoodsPrice} value={this.state.goodsPrice}/>
+                            onChange={this.changeGoodsPrice} value={this.state.goodsPrice} />
                     </Col>
-                    <span style={{marginRight: 13}}/>
+                    <span style={{ marginRight: 13 }} />
                     <Col span={1}>
                         <Button type="primary" onClick={this.searchInfo}>搜索</Button>
                     </Col>
@@ -175,17 +174,17 @@ class Goods extends Component {
                     <Col span={1}>
                         <Button type="primary" danger onClick={this.insertInfo}>新增</Button>
                         <Modal title="新增商品" footer={null} visible={this.state.isModalVisible}
-                               onCancel={this.closeModal}>
+                            onCancel={this.closeModal}>
                             <Form {...layout} name="nest-messages" onFinish={this.onFinish}
-                                  validateMessages={validateMessages}>
-                                <Form.Item name={['user', 'name']} label="商品名称" rules={[{required: true}]}>
-                                    <Input/>
+                                validateMessages={validateMessages}>
+                                <Form.Item name={['user', 'name']} label="商品名称" rules={[{ required: true }]}>
+                                    <Input />
                                 </Form.Item>
                                 <Form.Item name={['user', 'age']} label="商品价格"
-                                           rules={[{type: 'number', min: 0, max: 99}]}>
-                                    <InputNumber/>
+                                    rules={[{ type: 'number', min: 0, max: 99 }]}>
+                                    <InputNumber />
                                 </Form.Item>
-                                <Form.Item wrapperCol={{...layout.wrapperCol, offset: 8}}>
+                                <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
                                     <Button type="primary" htmlType="submit">
                                         提交
                                     </Button>
@@ -194,9 +193,9 @@ class Goods extends Component {
                         </Modal>
                     </Col>
                 </Row>
-                <div style={{marginTop: 20}}/>
+                <div style={{ marginTop: 20 }} />
                 <div>
-                    <Table columns={columns} dataSource={this.state.goodsData}/>
+                    <Table columns={columns} dataSource={this.state.goodsData} />
                 </div>
             </div>
         );

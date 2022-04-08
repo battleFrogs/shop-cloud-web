@@ -16,6 +16,8 @@ class Login extends Component {
         const { username, password } = values
         service.postJson(apiurl.login, { userName: username, password })
             .then(res => {
+                console.log(res.token)
+                sessionStorage.setItem("token", res.token);
                 this.props.history.push(`/home/goods/goodsDetail`);
             })
             .catch(err => {
