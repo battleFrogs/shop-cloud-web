@@ -6,6 +6,7 @@ import Login from './Page/Login';
 import Unknown from "./Page/Unknown";
 
 import history from "./Component/Axios/history";
+import Home from './Page/Home';
 
 
 class AppRouter extends Component {
@@ -29,6 +30,7 @@ class HomeInfo extends Component {
         return (
             <App>
                 <Routes>
+                    <Route path='/index' element={<Home/>}/>
                     <Route path="/goods/goodsDetail" element={<Goods />} />
                     <Route path="*" element={<Unknown />} />
                 </Routes>

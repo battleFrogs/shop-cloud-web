@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import "./index.less";
 import Input from "antd/es/input";
-import { Button, Col, Form, InputNumber, Modal, Row, Space, Table, Tag } from "antd";
+import { Button, Col, Form, InputNumber, Modal, Row, Space, Table, Tag, Image } from "antd";
 import service from "../../Component/Axios/requestService"
 
 
@@ -110,6 +110,23 @@ class Goods extends Component {
                 dataIndex: 'goodsName',
                 key: 'goodsName',
             },
+            {
+                title: '商品图片',
+                dataIndex: 'goodsImage',
+                key: 'goodsImage',
+                render: res => {
+                    return <Image
+                        width={80}
+                        placeholder={<Image
+                            preview={false}
+                            src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png?x-oss-process=image/blur,r_50,s_50/quality,q_1/resize,m_mfit,h_200,w_200"
+                            width={200}
+                          />}
+                    src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
+                    />
+                }
+            },
+
             {
                 title: '商品价格',
                 dataIndex: 'goodsPrice',

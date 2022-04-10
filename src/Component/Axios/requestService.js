@@ -95,7 +95,6 @@ export default {
 
     // post Json请求
     postJson(url, data) {
-        console.log(urlprefix + url)
         return new Promise((resolve, reject) => {
             service({
                 method: "POST",

@@ -1,5 +1,11 @@
 const config = [
     {
+        key: "0",
+        name: "首页",
+        url: "/home/index",
+        icon: "StepBackwardOutlined",
+    },
+    {
         key: "1",
         name: "商品",
         url: "/home/goods",

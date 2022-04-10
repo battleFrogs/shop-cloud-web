@@ -6,7 +6,7 @@ class Home extends Component {
     render() {
         return (
             <div>
-                <h1>我是正文内容</h1>
+                <h1>首页展示</h1>
             </div>
 
         );
