@@ -10,7 +10,7 @@ const { SubMenu } = Menu;
 class NavLeft extends Component {
 
     state = {
-        current: '2',
+        current: '0',
     }
 
     // 获取左边栏数据

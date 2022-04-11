@@ -18,7 +18,7 @@ class Login extends Component {
             .then(res => {
                 console.log(res.token)
                 sessionStorage.setItem("token", res.token);
-                this.props.history.push(`/home/goods/goodsDetail`);
+                this.props.history.push(`/home/index`);
             })
             .catch(err => {
                 console.log(err);

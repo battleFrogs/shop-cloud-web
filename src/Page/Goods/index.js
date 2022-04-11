@@ -1,15 +1,19 @@
 import React, { Component } from 'react';
 import "./index.less";
 import Input from "antd/es/input";
-import { Button, Col, Form, InputNumber, Modal, Row, Space, Table, Tag, Image } from "antd";
+import { Button, Col, Form, InputNumber, Modal, Row, Table, Tag, Image } from "antd";
 import service from "../../Component/Axios/requestService"
+import datasourceKey from '../../utils/datasourceKey'
+
+
+const { TextArea } = Input;
 
 
 class Goods extends Component {
 
 
-    constructor(props, context) {
-        super(props, context);
+    constructor(props) {
+        super(props);
         this.state = {
             isModalVisible: false, // 新增弹窗是否显示
             goodsName: "", // 商品输入名称
@@ -90,6 +94,12 @@ class Goods extends Component {
     }
 
 
+    downSelf = (record) => {
+
+        
+
+    }
+
     render() {
 
 
@@ -121,8 +131,8 @@ class Goods extends Component {
                             preview={false}
                             src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png?x-oss-process=image/blur,r_50,s_50/quality,q_1/resize,m_mfit,h_200,w_200"
                             width={200}
-                          />}
-                    src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
+                        />}
+                        src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
                     />
                 }
             },
@@ -142,23 +152,32 @@ class Goods extends Component {
                 key: 'onSelf',
                 dataIndex: 'onSelf',
                 render: res => {
-                    if (res === 1) {
-                        return <span>上架</span>;
+                    if (res === "ON") {
+                        return <span>上架中</span>;
                     } else {
-                        return <span>下架</span>;
+                        return <span>已下架</span>;
                     }
                 },
             },
             {
                 title: '操作',
                 key: 'action',
-                render: (text, record) => (
-                    <>
-                        <Button type="primary">下架</Button>
-                        <span style={{ marginRight: 10 }} />
+                render: (text, record) => {
+
+                    console.log(text)
+                    let buttonText
+                    if (record.onSelf === "ON") {
+                        buttonText = <React.Fragment><Button type="primary" onClick={() => this.downSelf(record)}>下架</Button><span style={{ marginRight: 10 }} /></React.Fragment>
+                    } else {
+                        buttonText = <React.Fragment><Button type="primary">编辑</Button><span style={{ marginRight: 10 }} /></React.Fragment>
+                    }
+                    return (<React.Fragment>
+                        {buttonText}
                         <Button type="ghost">删除</Button>
-                    </>
-                ),
+                    </React.Fragment>);
+
+
+                },
             },
         ];
 
@@ -194,14 +213,19 @@ class Goods extends Component {
                             onCancel={this.closeModal}>
                             <Form {...layout} name="nest-messages" onFinish={this.onFinish}
                                 validateMessages={validateMessages}>
-                                <Form.Item name={['user', 'name']} label="商品名称" rules={[{ required: true }]}>
+                                <Form.Item name={['goods', 'name']} label="商品名称"
+                                    rules={[{ required: true }]}>
                                     <Input />
                                 </Form.Item>
-                                <Form.Item name={['user', 'age']} label="商品价格"
-                                    rules={[{ type: 'number', min: 0, max: 99 }]}>
+                                <Form.Item name={['goods', 'age']} label="商品价格"
+                                    rules={[{ required: true, type: 'number', min: 0, max: 99 }]}>
                                     <InputNumber />
                                 </Form.Item>
-                                <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
+                                <Form.Item name={['goods', 'description']} label="商品描述">
+                                    <TextArea rows={4} maxLength={30} showCount />
+                                </Form.Item>
+
+                                <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 10 }}>
                                     <Button type="primary" htmlType="submit">
                                         提交
                                     </Button>
@@ -212,7 +236,8 @@ class Goods extends Component {
                 </Row>
                 <div style={{ marginTop: 20 }} />
                 <div>
-                    <Table columns={columns} dataSource={this.state.goodsData} />
+                    <Table columns={columns} dataSource={datasourceKey.setKey(this.state.goodsData)}
+                        pagination={{ pageSize: 10, current: 2, total: 30 }} scroll={{ y: 550 }} />
                 </div>
             </div>
         );
