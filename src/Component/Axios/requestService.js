@@ -1,5 +1,6 @@
 import { message, notification } from "antd";
 import axios from "axios";
+import qs from 'qs'
 
 import history from "./history";
 
@@ -114,6 +115,12 @@ export default {
 
     // post FormData 请求
     postFormData(url, param) {
+        let data = new FormData()
+        console.log(param)
+        for (let i in param) {
+            data.append(i, param[i])
+        }
+
         return new Promise((resolve, reject) => {
             service({
                 method: "POST",
@@ -122,7 +129,7 @@ export default {
                     "Access-Control-Allow-Origin": "*",
                 },
                 url: urlprefix + url,
-                data: param
+                data
             }).then(res => {
                 responseReturn(resolve, reject, res);
             }).catch(err => {
@@ -164,7 +171,7 @@ export default {
                 },
                 url: urlprefix + url,
                 crossdomain: true,
-                params: param
+                data: qs.stringify(param)
             })
                 .then(res => {
                     responseReturn(resolve, reject, res);
