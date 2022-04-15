@@ -21,14 +21,14 @@ const config = [
     },
     {
         key: 3,
-        name: "待定1",
-        url: "/home/page2",
+        name: "订单",
+        url: "/home/trade",
         icon: "DoubleRightOutlined",
         children: [
             {
                 key: 4,
-                name: "待定1.1",
-                url: "/home/page2/pageDetail1",
+                name: "订单",
+                url: "/home/trade/tradeDetail",
                 icon: "UpCircleOutlined"
             },
             {

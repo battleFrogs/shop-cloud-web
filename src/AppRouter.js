@@ -7,6 +7,7 @@ import Unknown from "./Page/Unknown";
 
 import history from "./Component/Axios/history";
 import Home from './Page/Home';
+import Trade from './Page/Trade';
 
 
 class AppRouter extends Component {
@@ -32,6 +33,7 @@ class HomeInfo extends Component {
                 <Routes>
                     <Route path='/index' element={<Home/>}/>
                     <Route path="/goods/goodsDetail" element={<Goods />} />
+                    <Route path="/trade/tradeDetail" element={<Trade />} />
                     <Route path="*" element={<Unknown />} />
                 </Routes>
             </App>)

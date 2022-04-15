@@ -139,7 +139,7 @@ export default {
     },
 
 
-    // post formData
+    // post formData 文件上传
     uploadFile(url, param) {
         return new Promise((resolve, reject) => {
             service({
